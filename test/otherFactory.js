@@ -245,12 +245,17 @@
                 	callback(new UlList()
                         .columns(["Col A", "Col B"])
                         .data([
-                        	["GJS0", 7],
-                          	["GJS1", 7],
-                          	["GJS2", 7],
-                          	["GJS3", 7],
-                          	["GJS4", 7],
-                          	["ABC5", 1]
+							["GJS0", [["CHILD101", 7], ["CHILDn02", 7], ["CHILD003", 7], ["CHILD004", 7]], 7],
+							["GJS0", [["CHILD201", 7], ["CHILDm02", 7], ["CHILD003", 7], ["CHILD004", 7]], 7],
+							["GJS0", [["CHILD301", 7], ["CHILDl02", 7], ["CHILD003", 7], ["CHILD004", 7]], 7],
+							["GJS0", [["CHILD401", 7], ["CHILDk02", 7], ["CHILD003", 7], ["CHILD004", 7]], 7],
+							["GJS0", [["CHILD501", 7], ["CHILDj02", 7], ["CHILD003", 7], ["CHILD004", 7]], 7],
+							["GJS0", [["CHILD601", 7], ["CHILDi02", 7], ["CHILD003", 7], ["CHILD004", 7]], 7],
+							["GJS0", [["CHILD701", 7], ["CHILDh02", 7], ["CHILD003", 7], ["CHILD004", 7]], 7],
+							["GJS0", [["CHILD801", 7], ["CHILDg02", 7], ["CHILD003", 7], ["CHILD004", 7]], 7],
+							["GJS0", [["CHILD901", 7], ["CHILDf02", 7], ["CHILD003", 7], ["CHILD004", 7]], 7],
+							["GJS0", [["CHILDa01", 7], ["CHILDe02", 7], ["CHILD003", 7], ["CHILD004", 7]], 7],
+							["GJS0", [["CHILDc01", 7], ["CHILDd02", 7], ["CHILD003", 7], ["CHILD004", 7]], 7]
                         ])
                     );
                 });

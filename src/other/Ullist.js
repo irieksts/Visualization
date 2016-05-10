@@ -1,11 +1,11 @@
 "use strict";
 (function (root, factory) {
     if (typeof define === "function" && define.amd) {
-        define(["../common/HTMLWidget", "css!./Ullist"], factory);
+        define(["d3", "../common/HTMLWidget", "css!./Ullist"], factory);
     } else {
-        root.template_Ullist = factory(root.common_HTMLWidget);
+        root.template_Ullist = factory(root.d3, root.common_HTMLWidget);
     }
-}(this, function (HTMLWidget) {
+}(this, function (d3, HTMLWidget) {
     function Ullist() {
         HTMLWidget.call(this);
         this._tag = "div";
@@ -20,13 +20,30 @@
         this._ul = element.append("ul");
     };
 
-    Ullist.prototype.update = function (domNode, element) {
+    		Ullist.prototype.update = function (domNode, element) {
         HTMLWidget.prototype.update.apply(this, arguments);
-        var li = this._ul.selectAll("dataRow").data(this.data());
+        var depth = 0;
+        var li = this._ul.selectAll(".innerRow" + depth).data(this.data());
         li.enter().append("li")
-            .attr("class", "dataRow")
+            .attr("class", "innerRow" + depth)
         ;
-        li.text(function(d) {return d[0];});
+        li.text(function(d) {return d[0];
+        	}).each (function (d) {
+            depth = 1;
+          	var liE = d3.select(this);
+          	var innerUl = liE.append("ul");
+          	var inner = innerUl.selectAll(".innerRow" + depth).data(d[1]);
+          	inner.enter().append("li")
+          	.attr("class", "innerRow" + depth);
+          	inner
+          	  .text(function (d2) {
+          	  	return d2[0];
+          	  });
+          	 inner.exit().remove();
+          	
+          });
+        ;
+        
         li.exit().remove();
         
     };
