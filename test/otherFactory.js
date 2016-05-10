@@ -253,10 +253,6 @@
                           	["ABC5", 1]
                         ])
                     );
-                	
-                    // var w = new Html();
-                    // w.html('<div style="border:1px solid red;padding:10px;margin:20px;font-size:24px;">Text in a div!</div>');
-                    // callback(w);
                 });
             }
         }
