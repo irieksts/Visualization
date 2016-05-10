@@ -238,6 +238,27 @@
                     callback(w);
                 });
             }
+        },
+        UlList: {
+            simple: function (callback) {
+                require(["src/other/UlList"], function (UlList) {
+                	callback(new UlList()
+                        .columns(["Col A", "Col B"])
+                        .data([
+                        	["GJS0", 7],
+                          	["GJS1", 7],
+                          	["GJS2", 7],
+                          	["GJS3", 7],
+                          	["GJS4", 7],
+                          	["ABC5", 1]
+                        ])
+                    );
+                	
+                    // var w = new Html();
+                    // w.html('<div style="border:1px solid red;padding:10px;margin:20px;font-size:24px;">Text in a div!</div>');
+                    // callback(w);
+                });
+            }
         }
     };
 }));
