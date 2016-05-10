@@ -239,9 +239,9 @@
                 });
             }
         },
-        UlList: {
+        Ullist: {
             simple: function (callback) {
-                require(["src/other/UlList"], function (UlList) {
+                require(["src/other/Ullist"], function (UlList) {
                 	callback(new UlList()
                         .columns(["Col A", "Col B"])
                         .data([

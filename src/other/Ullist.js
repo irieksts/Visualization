@@ -8,21 +8,31 @@
 }(this, function (HTMLWidget) {
     function Ullist() {
         HTMLWidget.call(this);
-        this._tag = "ul";
+        this._tag = "div";
     }
     
     Ullist.prototype = Object.create(HTMLWidget.prototype);
     Ullist.prototype.constructor = Ullist;
-    Ullist.prototype._class += " template_Ullist";
+    Ullist.prototype._class += " other_Ullist";
 
   //  Ullist.prototype.publish("stringProp", "defaultValue", "string", "Sample Property");
 
     Ullist.prototype.enter = function (domNode, element) {
         HTMLWidget.prototype.enter.apply(this, arguments);
+        this._ul = element.append("ul");
     };
 
     Ullist.prototype.update = function (domNode, element) {
         HTMLWidget.prototype.update.apply(this, arguments);
+        //var html = element.selectAll(".Ullist").data(this.data().length > 0 ? this.data() : [this.html()]);
+        //html.enter()
+        var li = this._ul.selectAll("dataRow").data(this.data());
+        li.enter().append("li")
+            .attr("class", "dataRow")
+        ;
+        li.text(function(d) {return d[0]});
+        li.exit().remove();
+        
     };
 
     Ullist.prototype.exit = function (domNode, element) {
