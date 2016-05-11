@@ -6,82 +6,54 @@
         root.template_Ullist = factory(root.d3, root.common_HTMLWidget);
     }
 }(this, function (d3, HTMLWidget) {
-    function Ullist() {
+    function Ullist(target) {
         HTMLWidget.call(this);
+
         this._tag = "div";
     }
-    
     Ullist.prototype = Object.create(HTMLWidget.prototype);
     Ullist.prototype.constructor = Ullist;
     Ullist.prototype._class += " other_Ullist";
 
+    Ullist.prototype.publish("stringProp", "defaultValue", "string", "Sample Property");
+
     Ullist.prototype.enter = function (domNode, element) {
         HTMLWidget.prototype.enter.apply(this, arguments);
-        this._ul = element.append("table");
     };
 
-    		Ullist.prototype.update = function (domNode, element) {
+    Ullist.prototype.update = function (domNode, element) {
         HTMLWidget.prototype.update.apply(this, arguments);
-        this.appendArray(this._ul, this.data());
-        
-        // var depth = 0;
-        // var li = this._ul.selectAll("ul#parent > .row.innerRow").data(this.data());
-        // li.enter().append("li")
-            // .attr("class", "row innerRow")
-        // ;
-        // li.text(function(d) {return d[0];
-        	// }).each (function (d) {
-            // depth = 1;
-          	// var liE = d3.select(this);
-          	// var innerUl = liE.append("ul");
-          	// var inner = innerUl.selectAll("ul#parent > .row.innerRow").data(d[1]);
-          	// inner.enter().append("li")
-          	// .attr("class", "row innerRow");
-          	// inner
-          	  // .text(function (d2) {
-          	  	// return d2[0];
-          	  // });
-          	 // inner.exit().remove();
-//           	
-          // });
-        // ;
-//         
-        // li.exit().remove();
-        
+        d3.select(domNode.parentNode).style("overflow", "auto");
+        this.updateArray(element, this.data(), 0);
     };
-    
-    Ullist.prototype.appendArray = function(element, arr) {
-    	//var context = element;
-    //	var innerUl = liE.append("ul");
-   // 	li.text(function(d) {return d[0];
-    //    	}).each (function (d) {
-          	//var liE = element;
-          	var innerUl = element.append("tr");
-          	var inner = innerUl.selectAll("ul#parent > .dataRow").data(arr);
-          	inner.enter().append("td")
-          	.attr("class", "dataRow");
-          	var context = this;
-          	inner
-          	  .text(function (d2) {
-          	  	return d2[0];
-          	  }).
-          	  each(function(d) {
-          	  	if(d[1] instanceof Array){
-          	  		context.appendArray(d3.select(this), d[1]);
-          	  	}
-          	  }
-          	  );
-          	 inner.exit().remove();
-          	
-         // });
+
+    Ullist.prototype.updateArray = function (element, _, depth) {
+        var ul = element.selectAll("container#parent > ul").data(_ instanceof Array ? [_] : []);
+        ul.enter().append("ul")
+            .attr("data-depth", depth)
         ;
-    };
+
+        var li = ul.selectAll("ul#parent > .dataRow").data(_);
+        li.enter().append("li")
+            .attr("class", "dataRow")
+        ;
+        var context = this;
+        li
+            .text(function (row) {
+                return row[0] + " - " + depth;
+            })
+            .each(function (row) {
+                context.updateArray(d3.select(this), row[1], depth + 1);
+            })
+        ;
+        li.exit().remove();
+
+        ul.exit().remove()
+    }
 
     Ullist.prototype.exit = function (domNode, element) {
         HTMLWidget.prototype.exit.apply(this, arguments);
     };
-    
-    
 
     return Ullist;
 }));
