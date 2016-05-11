@@ -25,6 +25,15 @@
                 });
             }
         },
+        CircularDendrogram: {
+        simple: function (callback) {
+            require(["test/DataFactory", "src/tree/CircularDendrogram"], function (DataFactory, CircularDendrogram) {
+                callback(new CircularDendrogram()
+                        .data(DataFactory.Tree.default.data)
+                    );
+                });
+            }
+        },
         SunburstPartition: {
             simple: function (callback) {
                 require(["test/DataFactory", "src/tree/SunburstPartition"], function (DataFactory, SunburstPartition) {
