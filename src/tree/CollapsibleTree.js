@@ -21,19 +21,15 @@
 
         CollapsibleTree.prototype.enter = function(domNode, element) {
             SVGWidget.prototype.enter.apply(this, arguments);
-
             this._offsets = [20, 120, 20, 120];
             this.i = 0;
 
             this._tree = d3.layout.tree();
-
-            this.diagonal = d3.svg.diagonal().projection(function(d) {
+            this._diagonal = d3.svg.diagonal().projection(function(d) {
                 return [d.y, d.x];
             });
-
             this._svg = element.append("svg");
-           
-            this.vis = this._svg.append("g")
+            this._vis = this._svg.append("g")
                 .attr("transform", "translate(" + this._offsets[3] + "," + this._offsets[0] + ")");
         };
 
@@ -87,7 +83,7 @@
             });
 
             // Update the nodes…
-            var node = context.vis.selectAll("g.node").data(nodes, function(d) {
+            var node = context._vis.selectAll("g.node").data(nodes, function(d) {
                 return d.id || (d.id = ++context.i);
             });
 
@@ -132,7 +128,7 @@
             nodeExit.select("text").style("fill-opacity", 1e-6);
 
             // Update the links…
-            var link = context.vis.selectAll("path.link").data(context._tree.links(nodes), function(d) {
+            var link = context._vis.selectAll("path.link").data(context._tree.links(nodes), function(d) {
                 return d.target.id;
             });
 
@@ -142,14 +138,14 @@
                     x : source.x0,
                     y : source.y0
                 };
-                return context.diagonal({
+                return context._diagonal({
                     source : o,
                     target : o
                 });
-            }).transition().duration(duration).attr("d", context.diagonal);
+            }).transition().duration(duration).attr("d", context._diagonal);
 
             // Transition links to their new position.
-            link.transition().duration(duration).attr("d", context.diagonal);
+            link.transition().duration(duration).attr("d", context._diagonal);
 
             // Transition exiting nodes to the parent's new position.
             link.exit().transition().duration(duration).attr("d", function(d) {
@@ -157,7 +153,7 @@
                     x : source.x,
                     y : source.y
                 };
-                return context.diagonal({
+                return context._diagonal({
                     source : o,
                     target : o
                 });
